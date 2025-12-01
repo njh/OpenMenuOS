@@ -749,7 +749,10 @@ void toggleLED() {
 }
 
 void showBrightnessControl() {
-  // Keep the String object alive while the popup is shown
+  // NOTE: When using String concatenation with PopupConfig, the String object
+  // must remain valid while the popup is displayed. Using static ensures this.
+  // Alternative: call PopupManager::showInfo(message.c_str(), "Title") directly
+  // where the message String is a local variable (non-blocking popup).
   static String message;
   message = "Current brightness: " + String(brightness) + "%\nAdjust in Settings menu";
   
