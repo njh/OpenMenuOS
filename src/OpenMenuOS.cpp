@@ -3203,8 +3203,8 @@ void OpenMenuOS::setOptimizeDisplayUpdates(bool enabled)
   size_t totalBytes = spriteBytes * BUFFER_COUNT;
   
   // Safety check: Disable optimization for large displays to prevent memory issues
-  // Example: 172x172 display = 172 * 172 * 2 * 3 ≈ 177KB (above safe limit)
-  // Safe displays: ≤223x223 at 150KB threshold
+  // Example: 172x172 display = 172 * 172 * 2 * 3 = 177,408 bytes ≈ 173KB (above safe limit)
+  // Safe displays: ≤158x158 (≈150KB), or any display needing <150KB total
   const size_t SAFE_MEMORY_LIMIT = 150000; // 150KB threshold
   
   if (enabled && totalBytes > SAFE_MEMORY_LIMIT)

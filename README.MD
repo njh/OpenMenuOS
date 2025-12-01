@@ -869,7 +869,7 @@ for (int i = 0; i < settingsScreen.getTotalSettings(); i++) {
 
 ### **Memory Optimization**
 - **Large displays (>150KB RAM needed)**: Library automatically disables `OptimizeDisplayUpdates` to prevent memory issues
-- **Small displays (≤223x223 pixels)**: Safe to enable `setOptimizeDisplayUpdates(true)` for CPU savings
+- **Small displays (≤158×158 or equivalent area)**: Safe to enable `setOptimizeDisplayUpdates(true)` for CPU savings
 - Use `setOptimizeDisplayUpdates(false)` on ESP8266 or when low on memory
 - Minimize the number of concurrent menu items
 - Use simple icons (16x16 pixels or smaller)

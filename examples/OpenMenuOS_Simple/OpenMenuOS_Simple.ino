@@ -95,7 +95,7 @@ void setup()
 
   // Configure main settings
   settingsScreen.addBooleanSetting("Animations", true);                  // Toggle setting
-  settingsScreen.addBooleanSetting("Optimize Display Updates", false);   // Toggle setting (auto-disabled for large displays, false = safer default)
+  settingsScreen.addBooleanSetting("Optimize Display Updates", false);   // Safer default, auto-disabled for large displays
   settingsScreen.addRangeSetting("Brightness", 0, 100, 75, "%");         // Range setting
   settingsScreen.addSubscreenSetting("Speaker", &speakerSettingsScreen); // Subscreen link
 
