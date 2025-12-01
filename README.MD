@@ -749,8 +749,12 @@ void toggleLED() {
 }
 
 void showBrightnessControl() {
+  // Keep the String object alive while the popup is shown
+  static String message;
+  message = "Current brightness: " + String(brightness) + "%\nAdjust in Settings menu";
+  
   PopupConfig config;
-  config.message = "Current brightness: " + String(brightness) + "%\nAdjust in Settings menu";
+  config.message = message.c_str();
   config.title = "Brightness Control";
   config.type = PopupType::INFO;
   PopupManager::show(config);

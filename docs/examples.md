@@ -69,7 +69,7 @@ void showDeviceInfo() {
   String info = "Device: ESP32\\n";
   info += "Firmware: v1.0\\n";
   info += "Free RAM: " + String(ESP.getFreeHeap()) + " bytes";
-  PopupManager::showInfo(info, "Device Information");
+  PopupManager::showInfo(info.c_str(), "Device Information");
 }
 
 void confirmReset() {
@@ -187,7 +187,7 @@ void showDetailedInfo() {
   details += "• Network: Connected\\n";
   details += "• Sensors: All OK";
   
-  PopupManager::showInfo(details, "Detailed Status");
+  PopupManager::showInfo(details.c_str(), "Detailed Status");
 }
 ```
 
@@ -517,7 +517,7 @@ void updateMenuItems() {
 void showProgress() {
   for (int i = 0; i <= 100; i += 10) {
     String message = "Processing... " + String(i) + "%";
-    PopupManager::showInfo(message, "Please Wait", 500);
+    PopupManager::showInfo(message.c_str(), "Please Wait", 500);
     
     // Do work
     delay(200);
