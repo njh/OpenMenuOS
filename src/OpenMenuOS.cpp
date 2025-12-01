@@ -3197,11 +3197,14 @@ void OpenMenuOS::setOptimizeDisplayUpdates(bool enabled)
 {
   // Calculate required memory for optimization (3 buffers: sprite + 2 comparison buffers)
   // Each pixel uses 2 bytes (16-bit color)
-  size_t spriteBytes = (size_t)tftWidth * tftHeight * 2;
-  size_t totalBytes = spriteBytes * 3; // sprite + lastFrame + currentFrame
+  const size_t BYTES_PER_PIXEL = 2;
+  const size_t BUFFER_COUNT = 3; // sprite + lastFrame + currentFrame
+  size_t spriteBytes = (size_t)tftWidth * tftHeight * BYTES_PER_PIXEL;
+  size_t totalBytes = spriteBytes * BUFFER_COUNT;
   
   // Safety check: Disable optimization for large displays to prevent memory issues
-  // Threshold: ~115KB (172 * 172 * 2 * 3 ≈ 177KB, safe limit ~150KB total)
+  // Example: 172x172 display = 172 * 172 * 2 * 3 ≈ 177KB (above safe limit)
+  // Safe displays: ≤223x223 at 150KB threshold
   const size_t SAFE_MEMORY_LIMIT = 150000; // 150KB threshold
   
   if (enabled && totalBytes > SAFE_MEMORY_LIMIT)

@@ -403,7 +403,7 @@ menu.setScrollbarColor(TFT_WHITE);         // Scrollbar color
 ### **Performance Optimization**
 ```cpp
 // Enable display optimization (saves CPU by only updating changed pixels)
-// NOTE: Automatically disabled for displays >172px wide to prevent memory issues
+// NOTE: Automatically disabled for displays requiring >150KB RAM to prevent memory issues
 menu.setOptimizeDisplayUpdates(true);
 
 // Control animations
@@ -438,7 +438,7 @@ const char* getLibraryVersion()                 // Get library version string
 #### **Display Configuration**
 ```cpp
 void setDisplayRotation(int rotation)          // Set display rotation (0-3)
-void setOptimizeDisplayUpdates(bool enabled)   // Enable frame comparison (auto-disabled for >172px width)
+void setOptimizeDisplayUpdates(bool enabled)   // Enable frame comparison (auto-disabled if >150KB RAM needed)
 bool getOptimizeDisplayUpdates()               // Get optimization state
 void drawCanvasOnTFT()                         // Manually update display
 ```
@@ -833,8 +833,8 @@ void handlePopupResult(PopupResult result) {
 #### **Display Issues**
 - **Blank screen**: Check TFT_eSPI configuration and wiring
 - **Wrong colors**: Verify color order in TFT_eSPI settings
-- **Flickering**: Enable display optimization with `setOptimizeDisplayUpdates(true)` (if display width ≤172px)
-- **Corrupted display on wide screens (>172px)**: Disable display optimization with `setOptimizeDisplayUpdates(false)` - automatically done by library
+- **Flickering**: Enable display optimization with `setOptimizeDisplayUpdates(true)` (for small displays)
+- **Corrupted display on large screens**: Library automatically disables optimization when >150KB RAM required
 
 #### **Input Issues**
 - **Buttons not responding**: Check pin numbers and button voltage logic
@@ -868,15 +868,15 @@ for (int i = 0; i < settingsScreen.getTotalSettings(); i++) {
 ## Performance Tips
 
 ### **Memory Optimization**
-- **Display width >172px**: Library automatically disables `OptimizeDisplayUpdates` to prevent memory issues
-- **Small displays (≤172px)**: Safe to enable `setOptimizeDisplayUpdates(true)` for CPU savings
+- **Large displays (>150KB RAM needed)**: Library automatically disables `OptimizeDisplayUpdates` to prevent memory issues
+- **Small displays (≤223x223 pixels)**: Safe to enable `setOptimizeDisplayUpdates(true)` for CPU savings
 - Use `setOptimizeDisplayUpdates(false)` on ESP8266 or when low on memory
 - Minimize the number of concurrent menu items
 - Use simple icons (16x16 pixels or smaller)
 - Avoid deeply nested menu structures
 
 ### **CPU Optimization**
-- Enable frame comparison on small displays: `setOptimizeDisplayUpdates(true)` (≤172px width)
+- Enable frame comparison on small displays: `setOptimizeDisplayUpdates(true)` (when <150KB RAM needed)
 - Disable unnecessary animations: `setAnimation(false)`
 - Use shorter text to avoid scrolling: `setTextScroll(false)`
 - Optimize custom drawing functions
