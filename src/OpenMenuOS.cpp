@@ -2474,7 +2474,7 @@ void PopupManager::hide()
 }
 
 // Legacy wrapper for backward compatibility (optional)
-void OpenMenuOS::drawPopup(char *message, bool &clicked, int type)
+void OpenMenuOS::drawPopup(const char *message, bool &clicked, int type)
 {
   // Convert old type system to new enum
   PopupType newType;
@@ -2926,7 +2926,7 @@ void OpenMenuOS::useStylePreset(int preset)
     break;
   }
 }
-void OpenMenuOS::useStylePreset(char *preset)
+void OpenMenuOS::useStylePreset(const char *preset)
 {
   int presetNumber = 0; // Initialize with the default preset number
 
@@ -2947,7 +2947,7 @@ void OpenMenuOS::useStylePreset(char *preset)
   useStylePreset(presetNumber);
 }
 
-void OpenMenuOS::setButtonsMode(char *mode)
+void OpenMenuOS::setButtonsMode(const char *mode)
 { // The mode is either Pullup or Pulldown
   // Convert mode to lowercase for case-insensitive comparison
   String lowercaseMode = String(mode);

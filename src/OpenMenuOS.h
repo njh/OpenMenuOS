@@ -762,8 +762,8 @@ public:
 
   // Style presets and button configuration
   void useStylePreset(int preset);
-  void useStylePreset(char *preset);
-  void setButtonsMode(char *mode);
+  void useStylePreset(const char *preset);
+  void setButtonsMode(const char *mode);
   void setEncoderPin(uint8_t clk, uint8_t dt);
   void setUpPin(uint8_t btn_down);
   void setDownPin(uint8_t btn_up);
@@ -782,7 +782,7 @@ public:
 
 private:
   // Private methods
-  void drawPopup(char *message, bool &clicked, int type);
+  void drawPopup(const char *message, bool &clicked, int type);
 
   // Boot image properties
   uint16_t *boot_image = nullptr;
