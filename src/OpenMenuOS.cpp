@@ -3195,6 +3195,32 @@ int OpenMenuOS::SelectButton() const
  */
 void OpenMenuOS::setOptimizeDisplayUpdates(bool enabled)
 {
+  // Calculate required memory for optimization (3 buffers: sprite + 2 comparison buffers)
+  // Each pixel uses 2 bytes (16-bit color)
+  size_t spriteBytes = (size_t)tftWidth * tftHeight * 2;
+  size_t totalBytes = spriteBytes * 3; // sprite + lastFrame + currentFrame
+  
+  // Safety check: Disable optimization for large displays to prevent memory issues
+  // Threshold: ~115KB (172 * 172 * 2 * 3 ≈ 177KB, safe limit ~150KB total)
+  const size_t SAFE_MEMORY_LIMIT = 150000; // 150KB threshold
+  
+  if (enabled && totalBytes > SAFE_MEMORY_LIMIT)
+  {
+    #ifdef DEBUG_OPENMENUOS
+    Serial.println("WARNING: Display too large for OptimizeDisplayUpdates");
+    Serial.print("Display size: ");
+    Serial.print(tftWidth);
+    Serial.print("x");
+    Serial.println(tftHeight);
+    Serial.print("Required memory: ");
+    Serial.print(totalBytes / 1024);
+    Serial.println(" KB");
+    Serial.println("OptimizeDisplayUpdates disabled automatically for stability.");
+    #endif
+    optimizeDisplayUpdates = false;
+    return;
+  }
+  
   optimizeDisplayUpdates = enabled;
 }
 void OpenMenuOS::setAnimation(bool enabled)

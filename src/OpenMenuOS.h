@@ -758,6 +758,12 @@ public:
   void setAnimation(bool enabled);
   void setMenuFont(const GFXfont *font);
   void setMenuFontBold(const GFXfont *font);
+  /**
+   * @brief Enable or disable display update optimization
+   * @param enabled true to enable frame comparison (auto-disabled for displays >172px width)
+   * @note Optimization requires additional RAM (3x display buffer). Automatically disabled
+   *       for large displays to prevent memory issues. Safe for displays ≤172px width.
+   */
   void setOptimizeDisplayUpdates(bool enabled = true);
 
   // Style presets and button configuration

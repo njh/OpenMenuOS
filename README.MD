@@ -402,7 +402,8 @@ menu.setScrollbarColor(TFT_WHITE);         // Scrollbar color
 
 ### **Performance Optimization**
 ```cpp
-// Enable display optimization (saves CPU/memory)
+// Enable display optimization (saves CPU by only updating changed pixels)
+// NOTE: Automatically disabled for displays >172px wide to prevent memory issues
 menu.setOptimizeDisplayUpdates(true);
 
 // Control animations
@@ -437,7 +438,7 @@ const char* getLibraryVersion()                 // Get library version string
 #### **Display Configuration**
 ```cpp
 void setDisplayRotation(int rotation)          // Set display rotation (0-3)
-void setOptimizeDisplayUpdates(bool enabled)   // Enable frame comparison
+void setOptimizeDisplayUpdates(bool enabled)   // Enable frame comparison (auto-disabled for >172px width)
 bool getOptimizeDisplayUpdates()               // Get optimization state
 void drawCanvasOnTFT()                         // Manually update display
 ```
@@ -832,7 +833,8 @@ void handlePopupResult(PopupResult result) {
 #### **Display Issues**
 - **Blank screen**: Check TFT_eSPI configuration and wiring
 - **Wrong colors**: Verify color order in TFT_eSPI settings
-- **Flickering**: Enable display optimization with `setOptimizeDisplayUpdates(true)`
+- **Flickering**: Enable display optimization with `setOptimizeDisplayUpdates(true)` (if display width ≤172px)
+- **Corrupted display on wide screens (>172px)**: Disable display optimization with `setOptimizeDisplayUpdates(false)` - automatically done by library
 
 #### **Input Issues**
 - **Buttons not responding**: Check pin numbers and button voltage logic
@@ -840,8 +842,9 @@ void handlePopupResult(PopupResult result) {
 - **Multiple triggers**: Increase debounce time or check wiring
 
 #### **Memory Issues**
-- **Crashes on ESP8266**: Disable display optimization for large displays
-- **Heap overflow**: Reduce number of menu items or use simpler graphics
+- **Crashes on large displays (>172px wide)**: The library automatically disables `OptimizeDisplayUpdates` for displays requiring >150KB of RAM to prevent crashes
+- **Heap overflow on ESP8266**: Disable display optimization and reduce menu complexity
+- **Out of memory errors**: Reduce number of menu items or use simpler graphics
 - **EEPROM corruption**: Call `resetSettings()` to restore defaults
 
 #### **Performance Issues**
@@ -865,13 +868,15 @@ for (int i = 0; i < settingsScreen.getTotalSettings(); i++) {
 ## Performance Tips
 
 ### **Memory Optimization**
-- Use `setOptimizeDisplayUpdates(false)` on ESP8266 with large displays
+- **Display width >172px**: Library automatically disables `OptimizeDisplayUpdates` to prevent memory issues
+- **Small displays (≤172px)**: Safe to enable `setOptimizeDisplayUpdates(true)` for CPU savings
+- Use `setOptimizeDisplayUpdates(false)` on ESP8266 or when low on memory
 - Minimize the number of concurrent menu items
 - Use simple icons (16x16 pixels or smaller)
 - Avoid deeply nested menu structures
 
 ### **CPU Optimization**
-- Enable frame comparison: `setOptimizeDisplayUpdates(true)`
+- Enable frame comparison on small displays: `setOptimizeDisplayUpdates(true)` (≤172px width)
 - Disable unnecessary animations: `setAnimation(false)`
 - Use shorter text to avoid scrolling: `setTextScroll(false)`
 - Optimize custom drawing functions
